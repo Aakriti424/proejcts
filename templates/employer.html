@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Application</title>
+
+  <!-- Bootstrap 5.3.5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Body styling */
+    body {
+      min-height: 100vh;
+      background: #f7f9fc; /* Soft light background for a corporate feel */
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Form container */
+    .form-container {
+      background: #ffffff;
+      padding: 40px 30px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 550px;
+      transition: all 0.3s ease;
+    }
+
+    .form-container:hover {
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      font-weight: 600;
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* Form field styling */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-control {
+      border-radius: 6px;
+      background-color: #f1f3f5;
+      border: 1px solid #ced4da;
+      padding: 12px;
+      font-size: 1rem;
+      transition: border 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #5c6bc0; /* Subtle focus color */
+      box-shadow: 0 0 5px rgba(92, 107, 192, 0.2);
+      background-color: #ffffff;
+    }
+
+    .form-label {
+      font-weight: 500;
+      color: #495057;
+    }
+
+    /* Submit button styling */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      font-weight: 500;
+      border-radius: 6px;
+      background-color: #5c6bc0;
+      border: none;
+      color: white;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #3f51b5;
+      transform: translateY(-2px); /* Slight lifting effect on hover */
+    }
+
+    /* Alert box styling */
+    .alert {
+      font-size: 1rem;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background-color: #ffdddd;
+      color: #d32f2f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert button {
+      background: none;
+      border: none;
+      color: #d32f2f;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .alert button:hover {
+      color: #c62828;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="form-container">
+    <h2>Create Application</h2>
+
+    {% if error %}
+      <div class="alert" role="alert">
+        <span>{{ error }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">&times;</button>
+      </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger small">
+              {{ field.errors }}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+
+</body>
+</html>
