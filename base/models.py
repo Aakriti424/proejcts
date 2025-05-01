@@ -44,9 +44,10 @@ class Employer(models.Model):
 
     
 class JobSeeker(models.Model):
+
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     resume=models.ImageField(upload_to='resume/')
-    job=models.ForeignKey(Employer, on_delete=models.CASCADE)
+    job=models.ForeignKey(Employer, on_delete=models.SET_NULL, null=True)
     bio=models.TextField()
 
     def __str__(self):

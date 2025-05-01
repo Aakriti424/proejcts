@@ -55,16 +55,20 @@ def Homepage(request):
 def JobseekerView(request):
     form=JobSeekerForm()
     data={'form':form}
+    if request.user.is_authenticated:
+        if request.method=="POST":
+            input=JobSeekerForm(request.POST, request.FILES)
+            if input.is_valid():
+                instance=input.save(commit=False)
+                instance.user=request.user
+                instance.save()
+                return redirect('JobseekerProfile')
+            return render(request, 'jobseeker.html', context={'form':form, 'error':'please fill all the field'})
 
-    if request.method=="POST":
-        input=JobSeekerForm(request.POST, request.FILES)
-        if input.is_valid():
-            input.save()
-            return redirect('JobseekerProfile')
-        return render(request, 'jobseeker.html', context={'form':form, 'error':'please fill all the field'})
 
-
-    return render(request, 'jobseeker.html', context=data)
+        return render(request, 'jobseeker.html', context=data)
+    else:
+        return redirect('Login')
 
 def JobseekerProfile(request):
     if request.user.is_authenticated:
@@ -90,8 +94,8 @@ def EmployerView(request):
 def EmployerProfileView(request):
     if request.user.is_authenticated:
         form_data=Employer.objects.all()
-        data={'form':form_data}
-        return render(request, 'employerprofile.html', context=data)
+        application_count=JobSeeker.objects.filter(job__user=request.user).count()
+        return render(request, 'employerprofile.html', context={'form':form_data, 'count':application_count})
     else:
         return render('Login')
     
@@ -101,5 +105,4 @@ def EmployerProfileView(request):
 def ApplicationView(request):
     user=request.user
     filter=Employer.objects.filter(user=user)
-    context={'form':filter}
-    return render(request, 'application.html', context)
+    return render(request, 'application.html', context={'form':filter})

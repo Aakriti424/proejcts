@@ -17,12 +17,10 @@ class Login(forms.ModelForm):
 class JobSeekerForm(forms.ModelForm):
     class Meta:
         model=JobSeeker
-        fields=['user', 'resume', 'bio']
-        widgets={
-            'user':forms.TextInput(attrs={'class':'form-control'}),
-            'resume': forms.FileInput(attrs={'class':'form-control'}),
-            'bio': forms.TextInput(attrs={'class':'form-control'})
-        }
+        fields=[ 'resume', 'bio']
+        exclude=['job']
+
+        
 
 
 class EmployerForm(forms.ModelForm):
