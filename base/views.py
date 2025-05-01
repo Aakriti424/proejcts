@@ -52,19 +52,21 @@ def Homepage(request):
    return render(request, 'index.html')
 
 
-def JobseekerView(request):
-    form=JobSeekerForm()
-    data={'form':form}
+def JobseekerView(request, pk):
     if request.user.is_authenticated:
-        if request.method=="POST":
-            input=JobSeekerForm(request.POST, request.FILES)
-            if input.is_valid():
-                instance=input.save(commit=False)
-                instance.user=request.user
-                instance.save()
-                return redirect('JobseekerProfile')
-            return render(request, 'jobseeker.html', context={'form':form, 'error':'please fill all the field'})
-
+        form=JobSeekerForm()
+        data={'form':form}
+        if request.user.is_authenticated:
+            if request.method=="POST":
+                input=JobSeekerForm(request.POST, request.FILES)
+                if input.is_valid():
+                    job=Employer.objects.get(id=pk)
+                    instance=input.save(commit=False)
+                    instance.job=job
+                    instance.user=request.user
+                    instance.save()
+                    return redirect('JobseekerProfile')
+                return render(request, 'jobseeker.html', context={'form':form, 'error':'please fill all the field'})
 
         return render(request, 'jobseeker.html', context=data)
     else:
@@ -78,26 +80,28 @@ def JobseekerProfile(request):
     return redirect('Login')
 
 def EmployerView(request):
-    if request.method == "POST":
-        form = EmployerForm(request.POST, request.FILES)
-        if form.is_valid():
-            employer = form.save(commit=False)  
-            employer.user = request.user      
-            employer.save()                     
-            return redirect('EmployerProfile')
-        else:
-            return render(request, 'employer.html', context={'form': form, 'error': 'Please fill the necessary data'})
-    return render(request, 'employer.html', context={'form': EmployerForm()})
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = EmployerForm(request.POST, request.FILES)
+            if form.is_valid():
+                employer = form.save(commit=False)  
+                employer.user = request.user      
+                employer.save()                     
+                return redirect('EmployerProfile')
+            else:
+                return render(request, 'employer.html', context={'form': form, 'error': 'Please fill the necessary data'})
+        return render(request, 'employer.html', context={'form': EmployerForm()})
 
 
 
 def EmployerProfileView(request):
     if request.user.is_authenticated:
         form_data=Employer.objects.all()
-        application_count=JobSeeker.objects.filter(job__user=request.user).count()
-        return render(request, 'employerprofile.html', context={'form':form_data, 'count':application_count})
+        user=request.user
+        application_count=JobSeeker.objects.filter(job__user=user).count()
+        return render(request, 'employerprofile.html', context={'form':form_data,'read':application_count})
     else:
-        return render('Login')
+        return redirect('Login')
     
 
 

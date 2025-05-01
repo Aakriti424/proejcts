@@ -65,11 +65,12 @@
             </div>
         </nav>
         <!-- Application Count Section -->
-    <div class="container mt-3">
-        <div class="alert alert-info text-center shadow-sm" role="alert">
-            📥 You have <strong>{{ count }}</strong> application
+        <div class="container mt-3">
+            <div class="alert alert-info text-center shadow-sm" role="alert">
+                📥 You have {{ read }} application{{ read|pluralize }}
+            </div>
         </div>
-    </div>
+        
 
 
         <!-- Main Content -->

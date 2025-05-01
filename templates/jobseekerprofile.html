@@ -4,7 +4,7 @@
   {% csrf_token %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Employer Dashboard</title>
+  <title>Jobseeker Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
   
   <style>
@@ -100,7 +100,7 @@
           <div class="mt-auto">
             <a href="{{ i.website }}" class="btn btn-primary" target="_blank">Visit Website</a>
           </div>
-          <a href="{% url 'Jobseeker'%}"><div><button class="btn btn-primary mt-2">Apply</button></div></a>
+          <a href="{% url 'Jobseeker' pk=i.id %}"><div><button class="btn btn-primary mt-2">Apply</button></div></a>
         </div>
       </div>
     </div>

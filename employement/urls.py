@@ -28,7 +28,7 @@ urlpatterns = [
     path('employer/', EmployerView, name='Employer'),
     path('employerprofile/', EmployerProfileView, name='EmployerProfile'),
     path('application/', ApplicationView, name='Application'),
-    path('jobseeker/', JobseekerView, name='Jobseeker'),
+    path('jobseeker/<int:pk>', JobseekerView, name='Jobseeker'),
     path('jobseekerprofile/', JobseekerProfile, name='JobseekerProfile')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
