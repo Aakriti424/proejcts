@@ -8,7 +8,7 @@ from .form import *
 from .models import *
 from templates import *
 
-# Create your views here.
+####✅✅✅Register###
 
 class Register(generic.CreateView):
     model=User
@@ -20,8 +20,6 @@ class Register(generic.CreateView):
         data=form.save(commit=False)
         data.set_password(data.password)
         data.save()
-
-        
         role=form.cleaned_data.get('role')
         if role:
             group,_=Group.objects.get_or_create(name=role)
@@ -29,7 +27,7 @@ class Register(generic.CreateView):
         return super().form_valid(form)
 
     
-
+####✅✅✅Login ####
 
 def Login(request):
     form=User.objects.all()
@@ -49,7 +47,7 @@ def Login(request):
 
 
 
-
+####✅✅✅Application form ###
 
 def JobseekerView(request, pk):
     if request.user.is_authenticated:
@@ -71,11 +69,18 @@ def JobseekerView(request, pk):
     else:
         return redirect('Login')
 
+
+####✅✅✅Jobseeker dashboard ####
+
 def JobseekerProfile(request):
     if request.user.is_authenticated:
         form_data=Employer.objects.all()
         return render(request, 'jobseekerprofile.html', context={'form':form_data})
     return redirect('Login')
+
+
+
+####✅✅✅Vacancy form ####
 
 def EmployerView(request):
     if request.user.is_authenticated:
@@ -92,6 +97,8 @@ def EmployerView(request):
 
 
 
+####✅✅✅ Employer Dashboard ####
+
 def EmployerProfileView(request):
     if request.user.is_authenticated:
         form_data=Employer.objects.all()
@@ -103,11 +110,16 @@ def EmployerProfileView(request):
     
 
 
+### ✅✅✅ View all the vacancy created ###
 
 def VacancyView(request):
     user=request.user
     filter=Employer.objects.filter(user=user)
     return render(request, 'vacancy.html', context={'form':filter})
+
+
+
+####✅✅✅ View all the application created ####
 
 def ApplicationView(request):
     if request.user.role=='employer':
@@ -118,15 +130,30 @@ def ApplicationView(request):
         return render(request, 'appliedbyjobseeker.html', context={'form':form})
 
 
+
+
+### ✅✅✅ Accept the applicant by employer ###
+
 def accept(request, pk):
     form=JobSeeker.objects.get(id=pk)
     form.action=choices.Accept
     form.save()
     return redirect('EmployerProfile')
 
-def jobseekerquery(request):
-    form=JobSeeker.objects.filter(user=request.user)
-    if form.action=='accept':
-        return render(request, 'accept.html', context={'form':form})
-    else:
-        return render(request, 'reject.html', context={'form':form})
+
+
+
+### ✅✅✅ View accepted resume in the jobseeker dashboard ####
+
+def jobseekeraccept(request):
+    form=JobSeeker.objects.filter(user=request.user, action='accept')
+    return render(request, 'accept.html', context={'form':form})
+
+
+
+
+### ✅✅✅ View rejected resume in the jobseeker dashboard ####
+
+def jobseekerreject(request):
+    form=JobSeeker.objects.filter(user=request.user, action='reject')
+    return render(request, 'accept.html', context={'form':form})

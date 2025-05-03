@@ -21,17 +21,27 @@ from django.conf.urls.static import static
 from base.views import *
 
 urlpatterns = [
+    ###✅login, register###
     path('admin/', admin.site.urls),
     path('register/', Register.as_view(), name='Register'),
     path('', Login, name='Login'),
+
+    ####✅EmployerProfile, Create Vacancy, View Application, View Vacancy, Accept Applicant####
     path('employer/', EmployerView, name='Employer'),
     path('employerprofile/', EmployerProfileView, name='EmployerProfile'),
     path('vacancy/', VacancyView, name='Vacancy'),
+    path('accept/<int:pk>', accept, name='Accept'),
+    path('application/', ApplicationView, name='Application'),
+
+
+    ###✅Jobseeker profile, application create, applied to, accepted, rejected ####
     path('jobseeker/<int:pk>', JobseekerView, name='Jobseeker'),
     path('jobseekerprofile/', JobseekerProfile, name='JobseekerProfile'),
-    path('application/', ApplicationView, name='Application'),
     path('appliedby/', ApplicationView, name='Applied'),
-    path('accept/<int:pk>', accept, name='Accept')
+    path('jobseekeraccept/', jobseekeraccept, name='jobseekeraccept' ),
+    path('jobseekerreject', jobseekerreject,name='jobseekerreject')
+
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
