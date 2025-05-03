@@ -68,7 +68,9 @@
         <div class="container mt-3">
             <div class="alert alert-info text-center shadow-sm" role="alert">
                 📥 You have {{ read }} application{{ read|pluralize }}
+                <a href="{% url 'Application'%}"><button>View</button></a>
             </div>
+
         </div>
         
 
@@ -87,7 +89,7 @@
                             </div>
                             <div class="card-body">
                                 <p>Created Vacancies</p>
-                                <a href="{% url 'Application'%}" class="btn btn-primary">View </a>
+                                <a href="{% url 'Vacancy'%}" class="btn btn-primary">View </a>
                             </div>
                         </div>
                     </div>

@@ -18,7 +18,7 @@ class JobSeekerForm(forms.ModelForm):
     class Meta:
         model=JobSeeker
         fields=[ 'resume', 'bio']
-        exclude=['job']
+        exclude=['job','action']
 
         
 

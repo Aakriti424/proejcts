@@ -23,13 +23,15 @@ from base.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', Register.as_view(), name='Register'),
-    path('login/', Login, name='Login'),
-    path('',Homepage, name='Homepage'),
+    path('', Login, name='Login'),
     path('employer/', EmployerView, name='Employer'),
     path('employerprofile/', EmployerProfileView, name='EmployerProfile'),
-    path('application/', ApplicationView, name='Application'),
+    path('vacancy/', VacancyView, name='Vacancy'),
     path('jobseeker/<int:pk>', JobseekerView, name='Jobseeker'),
-    path('jobseekerprofile/', JobseekerProfile, name='JobseekerProfile')
+    path('jobseekerprofile/', JobseekerProfile, name='JobseekerProfile'),
+    path('application/', ApplicationView, name='Application'),
+    path('appliedby/', ApplicationView, name='Applied'),
+    path('accept/<int:pk>', accept, name='Accept')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

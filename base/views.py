@@ -48,8 +48,7 @@ def Login(request):
     return render(request, 'login.html', data)
 
 
-def Homepage(request):
-   return render(request, 'index.html')
+
 
 
 def JobseekerView(request, pk):
@@ -75,8 +74,7 @@ def JobseekerView(request, pk):
 def JobseekerProfile(request):
     if request.user.is_authenticated:
         form_data=Employer.objects.all()
-        data={'form':form_data}
-        return render(request, 'jobseekerprofile.html', context=data)
+        return render(request, 'jobseekerprofile.html', context={'form':form_data})
     return redirect('Login')
 
 def EmployerView(request):
@@ -106,7 +104,29 @@ def EmployerProfileView(request):
 
 
 
-def ApplicationView(request):
+def VacancyView(request):
     user=request.user
     filter=Employer.objects.filter(user=user)
-    return render(request, 'application.html', context={'form':filter})
+    return render(request, 'vacancy.html', context={'form':filter})
+
+def ApplicationView(request):
+    if request.user.role=='employer':
+        form=JobSeeker.objects.filter(job__user=request.user)
+        return render(request, 'application.html', context={'form':form})
+    else:
+        form=JobSeeker.objects.filter(user=request.user)
+        return render(request, 'appliedbyjobseeker.html', context={'form':form})
+
+
+def accept(request, pk):
+    form=JobSeeker.objects.get(id=pk)
+    form.action=choices.Accept
+    form.save()
+    return redirect('EmployerProfile')
+
+def jobseekerquery(request):
+    form=JobSeeker.objects.filter(user=request.user)
+    if form.action=='accept':
+        return render(request, 'accept.html', context={'form':form})
+    else:
+        return render(request, 'reject.html', context={'form':form})

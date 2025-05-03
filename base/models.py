@@ -22,13 +22,17 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class choices(models.TextChoices):
+    
+        Accept='accept', 'Accept',
+        Reject='reject', 'Reject',
+        Null='null'
     
 
 class Employer(models.Model):
-    CONDTION_CHOICES=[
-        ('accepted','Accepted'),
-        ('rejected', 'Rejected')
-    ]
+
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     company=models.CharField(max_length=400)
     company_logo=models.ImageField(upload_to='company_logo/')
@@ -38,8 +42,9 @@ class Employer(models.Model):
     remains_till=models.DateField()
     website=models.URLField(null=True,blank=True)
     
+    
     def __str__(self):
-        return f"{self.company} as employer"
+        return self.company
     
 
     
@@ -49,7 +54,9 @@ class JobSeeker(models.Model):
     resume=models.ImageField(upload_to='resume/')
     job=models.ForeignKey(Employer, on_delete=models.SET_NULL, null=True)
     bio=models.TextField()
+    action=models.CharField(max_length=50, choices=choices.choices, null=True)
 
     def __str__(self):
-        return f"{self.user} as jobseeker"
+        return self.user
+
 
