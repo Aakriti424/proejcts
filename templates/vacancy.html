@@ -4,7 +4,7 @@
   {% csrf_token %}
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>View Application</title>
+  <title>View Vacancies</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
   {% load static %}
 
@@ -130,9 +130,54 @@
             <div class="requirements-header">Requirements</div>
             <p class="card-text">{{ i.requirement|truncatechars:100 }}</p>
             <a href="{{ i.website }}" class="btn btn-primary mt-auto mb-2" target="_blank">Visit Us</a>
-            <div class="d-flex justify-content-between">
-              <a href="#" class="btn btn-primary">Edit</a>
-              <a href="#"><button type="button" class="btn btn-outline-danger">Delete</button></a>
+
+            <div class="d-flex justify-content-between mt-3">
+              <!-- Edit link -->
+              <a href="{% url 'Edit' pk=i.id %}" class="btn btn-primary">Edit</a>
+              <!-- Delete trigger -->
+              <button type="button"
+                      class="btn btn-outline-danger"
+                      data-bs-toggle="modal"
+                      data-bs-target="#deleteModal-{{ i.id }}">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade"
+             id="deleteModal-{{ i.id }}"
+             tabindex="-1"
+             aria-labelledby="deleteModalLabel-{{ i.id }}"
+             aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel-{{ i.id }}">Confirm Delete</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+              </div>
+
+              <div class="modal-body">
+                Are you sure you want to delete the vacancy for
+                <strong>{{ i.company }}</strong>?
+              </div>
+
+              <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                  No
+                </button>
+                <a href="{% url 'Delete' pk=i.id %}" class="btn btn-danger">
+                  Yes, Delete
+                </a>
+              </div>
+
             </div>
           </div>
         </div>
@@ -142,7 +187,11 @@
   </div>
 
   <!-- Floating Create Vacancies Button -->
-  <a href="{% url 'Employer'%}" id="create-vacancy-btn" data-bs-toggle="tooltip" data-bs-placement="left" title="Create New Vacancy">
+  <a href="{% url 'Employer' %}"
+     id="create-vacancy-btn"
+     data-bs-toggle="tooltip"
+     data-bs-placement="left"
+     title="Create New Vacancy">
     +
   </a>
 

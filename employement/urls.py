@@ -26,12 +26,14 @@ urlpatterns = [
     path('register/', Register.as_view(), name='Register'),
     path('', Login, name='Login'),
 
-    ####✅EmployerProfile, Create Vacancy, View Application, View Vacancy, Accept Applicant####
+    ####✅EmployerProfile, Create Vacancy, View Application, View Vacancy, Accept Applicant, Edit and Delete Vacancy####
     path('employer/', EmployerView, name='Employer'),
     path('employerprofile/', EmployerProfileView, name='EmployerProfile'),
     path('vacancy/', VacancyView, name='Vacancy'),
     path('accept/<int:pk>', accept, name='Accept'),
     path('application/', ApplicationView, name='Application'),
+    path('edit/<int:pk>', edit, name='Edit'),
+    path('delete/<int:pk>', delete, name='Delete'),
 
 
     ###✅Jobseeker profile, application create, applied to, accepted, rejected ####

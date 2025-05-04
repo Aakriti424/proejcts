@@ -3,7 +3,9 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.models import Group
+from django.contrib import messages
 import django_filters
+
 from .form import *
 from .models import *
 from templates import *
@@ -168,3 +170,27 @@ def jobseekerreject(request):
     else:
         form=JobSeeker.objects.filter(job__user=request.user, action='reject')
         return render(request, 'reject.html', context={'form':form})
+    
+
+###✅✅✅ Edit and delete option for employer ###
+
+def edit(request, pk):
+    if request.user.is_authenticated:
+        pk_data=Employer.objects.get(id=pk)
+        if request.method=="POST":
+            form=EmployerForm(request.POST,request.FILES, pk_data)
+            if form.is_valid():
+                employer = form.save(commit=False)  
+                employer.user = request.user      
+                employer.save()                     
+                return redirect('EmployerProfile')
+        edit_data=EmployerForm(instance=pk_data)
+        data={'form':edit_data}
+        return render(request, 'employer.html', context={'form': form, 'error': 'Please fill the necessary data'})
+    return redirect('Login')
+
+
+def delete(request,pk):
+    form=Employer.objects.get(id=pk)
+    form.delete()
+    return redirect('EmployerProfile')
