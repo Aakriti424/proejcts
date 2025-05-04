@@ -10,55 +10,108 @@
 
   <style>
     body {
-      background-color: #f1f3f5;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      background-attachment: fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
     }
+
+    h1 {
+      background: rgba(255, 193, 7, 0.95);
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
     .card {
       border: none;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-      transition: transform 0.2s ease;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     .card:hover {
-      transform: translateY(-5px);
+      transform: scale(1.03);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25);
     }
+
     .card-img-top {
       height: 200px;
       object-fit: cover;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
     }
+
     .card-title {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin-bottom: 1rem;
+      font-weight: 600;
+      color: #0d6efd;
     }
+
     .info-label {
       font-weight: 600;
       color: #495057;
+    }
+
+    .btn-outline-danger {
+      border-radius: 2rem;
+      font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-outline-danger:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-success, .btn-danger {
+      border-radius: 2rem;
+      font-weight: 500;
+      width: 48%;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-success:hover {
+      background-color: #28a745;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .container {
+      padding-bottom: 4rem;
     }
   </style>
 </head>
 <body>
   <div class="container py-5">
-    <h1 class="text-center mb-5 bg-warning text-white p-2 rounded">Applications</h1>
+    <h1>Applications</h1>
     <div class="row g-4">
       {% for i in form %}
         <div class="col-md-6 col-lg-4">
           <div class="card h-100">
             <img src="{{ i.resume.url }}" class="card-img-top" alt="Resume Image of {{ i.user }}">
             <div class="card-body d-flex flex-column">
-              <h5 class="card-title text-center text-primary">{{ i.user }}</h5>
-              
+              <h5 class="card-title text-center">{{ i.user }}</h5>
               <p><span class="info-label">Bio:</span> {{ i.bio|truncatechars:100 }}</p>
-              
+
               <div class="mt-auto">
                 <a href="{{ i.resume.url }}" class="btn btn-outline-danger w-100" target="_blank">View Resume</a>
               </div>
+
               <div class="d-flex justify-content-between mt-3">
-                <a href="{% url 'Accept' pk=i.id%}"><button class="btn btn-success mt-2">Accept</button></a> 
-                <button class="btn btn-danger mt-2">Reject</button>
+                <a href="{% url 'Accept' pk=i.id %}" class="btn btn-success mt-2">Accept</a>
+                <a href="{% url 'Reject' pk=i.id %}" class="btn btn-danger mt-2">Reject</a>
               </div>
-              
-              
             </div>
           </div>
         </div>

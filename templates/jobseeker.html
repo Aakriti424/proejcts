@@ -1,22 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Submit Form</title>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+  <!-- Bootstrap 5.3.5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Full-page gradient background */
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+
+    /* Glassmorphic form wrapper */
+    .form-container {
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(12px);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-container:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Form elements */
+    .form-label {
+      font-weight: 600;
+      color: #444;
+    }
+    .form-control {
+      border-radius: 0.75rem;
+      border: 1px solid #ced4da;
+      background: rgba(255,255,255,0.8);
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: #2575fc;
+      box-shadow: 0 0 8px rgba(37,117,252,0.25);
+      background: #fff;
+    }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 2rem;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .btn-submit:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
 <body>
+  <div class="form-container">
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form}}
-        <button type="submit" class="btn btn-primary px-5">Submit</button>
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          {{ field }} 
+          {% if field.errors %}
+            <div class="text-danger small mt-1">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="btn-submit">Submit</button>
     </form>
-   
-    
+  </div>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
 </html>

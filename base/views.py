@@ -104,7 +104,8 @@ def EmployerProfileView(request):
         form_data=Employer.objects.all()
         user=request.user
         application_count=JobSeeker.objects.filter(job__user=user).count()
-        return render(request, 'employerprofile.html', context={'form':form_data,'read':application_count})
+        accepted_count=JobSeeker.objects.filter(job__user=user,action='accept').count()
+        return render(request, 'employerprofile.html', context={'form':form_data,'read':application_count, 'accepted':accepted_count})
     else:
         return redirect('Login')
     
@@ -146,8 +147,14 @@ def accept(request, pk):
 ### ✅✅✅ View accepted resume in the jobseeker dashboard ####
 
 def jobseekeraccept(request):
-    form=JobSeeker.objects.filter(user=request.user, action='accept')
-    return render(request, 'accept.html', context={'form':form})
+    if request.user.is_authenticated:
+        if request.user.role=='job-seeker':
+            form=JobSeeker.objects.filter(user=request.user, action=choices.Accept)
+            return render(request, 'accept.html', context={'form':form})
+        else:
+            form=JobSeeker.objects.filter(job__user=request.user, action=choices.Accept)
+            return render(request, 'accept.html', context={'form':form})
+    return redirect('Login')
 
 
 
@@ -155,5 +162,9 @@ def jobseekeraccept(request):
 ### ✅✅✅ View rejected resume in the jobseeker dashboard ####
 
 def jobseekerreject(request):
-    form=JobSeeker.objects.filter(user=request.user, action='reject')
-    return render(request, 'accept.html', context={'form':form})
+    if request.user=='job-seeker':
+        form=JobSeeker.objects.filter(user=request.user, action='reject')
+        return render(request, 'reject.html', context={'form':form})
+    else:
+        form=JobSeeker.objects.filter(job__user=request.user, action='reject')
+        return render(request, 'reject.html', context={'form':form})

@@ -1,115 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employer Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-        
-        .overlay {
-            background-color: rgba(255, 255, 255, 0.85);
-            min-height: 100vh;
-        }
-        
-        .navbar {
-            background-color: #343a40;
-        }
-        
-        .nav-link {
-            color: white !important;
-            padding: 0.5rem 1rem;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .dashboard-content {
-            padding: 2rem;
-            margin-top: 2rem;
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Employer Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      background-attachment: fixed;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.8);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.6rem;
+      color: #ffffff !important;
+    }
+
+    .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      margin-right: 1rem;
+      border-radius: 0.4rem;
+      transition: 0.3s;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffd700 !important;
+    }
+
+    .dashboard-content {
+      padding: 2rem;
+      margin-top: 2rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .card {
+      border: none;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      font-weight: 600;
+    }
+
+    .card-body p {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .btn {
+      border-radius: 2rem;
+      padding: 0.5rem 1.3rem;
+      font-weight: 500;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+    }
+
+    .btn-success {
+      background: linear-gradient(to right, #00b09b, #96c93d);
+      border: none;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(to right, #96c93d, #00b09b);
+    }
+
+    .alert {
+      border-radius: 1rem;
+      font-size: 1.1rem;
+      background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+      color: #0a3d62;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 2rem;
+      padding: 0.4rem 0.9rem;
+      margin-left: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="overlay">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark mb-4">
-            <div class="container">
-                <a class="navbar-brand" href="#">Employer Dashboard</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Remove</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Response</a>
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Application Count Section -->
-        <div class="container mt-3">
-            <div class="alert alert-info text-center shadow-sm" role="alert">
-                📥 You have {{ read }} application{{ read|pluralize }}
-                <a href="{% url 'Application'%}"><button>View</button></a>
-            </div>
-
+  <div class="overlay">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+      <div class="container">
+        <a class="navbar-brand" href="#">Employer Dashboard</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'jobseekeraccept'%}">Acepted</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'jobseekerreject'%}">Rejected</a>
+            </li>
+          </ul>
         </div>
-        
+      </div>
+    </nav>
 
-
-        <!-- Main Content -->
-        <div class="container">
-            <div class="dashboard-content">
-                <h1>Welcome to Your Employer Dashboard</h1>
-                <p class="lead">Manage your company's job postings and applications from here.</p>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5>Recent Vacancies</h5>
-                            </div>
-                            <div class="card-body">
-                                <p>Created Vacancies</p>
-                                <a href="{% url 'Vacancy'%}" class="btn btn-primary">View </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5>Post a New Job</h5>
-                            </div>
-                            <div class="card-body">
-                                <p>Create Vacancy</p>
-                                <a href="{% url 'Employer'%}" class="btn btn-success">Create</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Application Count Section -->
+    <div class="container mt-3">
+      <div class="alert alert-info text-center shadow-sm" role="alert">
+        📥 You have {{ read }} application{{ read|pluralize }}
+        <a href="{% url 'Application'%}"><button>View</button></a>
+      </div>
     </div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container mt-3">
+      <div class="alert alert-info text-center shadow-sm" role="alert">
+        📥 You have accepted {{ accepted }} applicant{{ accepted|pluralize }}
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="dashboard-content">
+        <h1 class="mb-3">Welcome to Your Employer Dashboard</h1>
+        <p class="lead mb-4">Manage your company's job postings and applications from here.</p>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5>Recent Vacancies</h5>
+              </div>
+              <div class="card-body">
+                <p>Created Vacancies</p>
+                <a href="{% url 'Vacancy'%}" class="btn btn-primary">View </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h5>Post a New Job</h5>
+              </div>
+              <div class="card-body">
+                <p>Create Vacancy</p>
+                <a href="{% url 'Employer'%}" class="btn btn-success">Create</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
